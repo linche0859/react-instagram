@@ -1,6 +1,6 @@
 import type { RouteObject } from 'react-router-dom'
 import Home from '@/pages/home'
-import Following from '@/pages/following'
+import Following from '@/pages/Following'
 import NotFound from '@/pages/NotFound'
 
 const routes: RouteObject[] = [
