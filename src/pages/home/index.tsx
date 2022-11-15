@@ -1,4 +1,6 @@
 import React from 'react'
+import { useGetIGPostsQuery } from '@/services/home-service'
+import Loading from '@/components/Loading'
 import IGHeader from '@/components/IGHeader'
 import IGContainer from '@/components/IGContainer'
 import IGStory from './components/IGStory'
@@ -6,59 +8,42 @@ import IGPost from './components/IGPost'
 import IGProfile from './components/IGProfile'
 
 const IGPostList: React.FC = () => {
-  const data = [
-    {
-      id: 1,
-      location: '布魯斯前端',
-      account: 'bruce_1234',
-      avatar: '/images/avatars/a1.png',
-      photo: '/images/posts/main1.png',
-      likes: 999,
-      description: '我的老天鵝！',
-      hashTags: '#鵝鵝',
-      createTime: '1 HOURS AGO'
-    },
-    {
-      id: 2,
-      location: '布魯斯前端',
-      account: 'bruce_1234',
-      avatar: '/images/avatars/a1.png',
-      photo: '/images/posts/main1.png',
-      likes: 999,
-      description: '我的老天鵝！',
-      hashTags: '#鵝鵝',
-      createTime: '1 HOURS AGO'
-    }
-  ]
+  const { data, isLoading } = useGetIGPostsQuery('')
 
   return (
     <>
-      {data.map((item) => {
-        const {
-          id,
-          location,
-          account,
-          avatar,
-          photo,
-          likes,
-          description,
-          hashTags,
-          createTime
-        } = item
-        return (
-          <IGPost
-            location={location}
-            account={account}
-            avatar={avatar}
-            photo={photo}
-            likes={likes}
-            description={description}
-            hashTags={hashTags}
-            createTime={createTime}
-            key={id}
-          />
-        )
-      })}
+      {isLoading && (
+        <div className="mt-20 flex justify-center">
+          <Loading />
+        </div>
+      )}
+      {!isLoading &&
+        data?.map((item) => {
+          const {
+            id,
+            location,
+            account,
+            avatar,
+            photo,
+            likes,
+            description,
+            hashTags,
+            createTime
+          } = item
+          return (
+            <IGPost
+              location={location}
+              account={account}
+              avatar={avatar}
+              photo={photo}
+              likes={likes}
+              description={description}
+              hashTags={hashTags}
+              createTime={createTime}
+              key={id}
+            />
+          )
+        })}
     </>
   )
 }

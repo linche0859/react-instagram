@@ -1,24 +1,30 @@
 import React from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react'
-import IGStoryItem from './Item'
 import 'swiper/css'
+import { useGetIGStoriesQuery } from '@/services/home-service'
+import Loading from '@/components/Loading'
+import IGStoryItem from './Item'
 
 const IGStory: React.FC = () => {
-  const data = Array.from({ length: 10 }).map((item, index) => {
-    return { id: index, name: 'che.lin', avatar: '/images/avatars/a1.png' }
-  })
+  const { data, isLoading } = useGetIGStoriesQuery('')
 
   return (
-    <div className="h-[110px] rounded-md shadow-md lg:my-8">
+    <div className="rounded-md shadow-md lg:my-8">
+      {isLoading && (
+        <div className="flex h-[110px] items-center justify-center">
+          <Loading />
+        </div>
+      )}
       <Swiper spaceBetween={22} slidesPerView={'auto'} className="!px-[11px]">
-        {data?.map((item) => {
-          const { id, name, avatar } = item
-          return (
-            <SwiperSlide className="!w-auto" key={id}>
-              <IGStoryItem name={name} avatar={avatar} />
-            </SwiperSlide>
-          )
-        })}
+        {!isLoading &&
+          data?.map((item) => {
+            const { id, name, avatar } = item
+            return (
+              <SwiperSlide className="!w-auto" key={id}>
+                <IGStoryItem name={name} avatar={avatar} />
+              </SwiperSlide>
+            )
+          })}
       </Swiper>
     </div>
   )

@@ -1,4 +1,6 @@
 import React from 'react'
+import { useDispatch } from 'react-redux'
+import { follow, unfollow } from '@/slices/followerSlice'
 
 type IGUserProps = {
   id?: number
@@ -19,6 +21,13 @@ const IGUser: React.FC<IGUserProps> = ({
   isFollowing = false,
   size = 'small'
 }) => {
+  const dispatch = useDispatch()
+  const clickFollowingHandler = () => {
+    if (id === undefined || id === null) return
+    if (isFollowing) return dispatch(unfollow(id))
+    dispatch(follow(id))
+  }
+
   return (
     <div className="flex h-[70px] items-center px-4">
       <img
@@ -37,6 +46,7 @@ const IGUser: React.FC<IGUserProps> = ({
           className={`ml-auto text-xs font-bold ${
             isFollowing ? 'text-gray-700' : 'text-blue-400'
           }`}
+          onClick={clickFollowingHandler}
         >
           {isFollowing ? 'FOLLOWING' : 'FOLLOW'}
         </button>
